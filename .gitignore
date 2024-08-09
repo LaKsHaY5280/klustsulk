@@ -16,6 +16,9 @@
 # production
 /build
 
+# service key
+service_key.json
+
 # misc
 .DS_Store
 *.pem
