@@ -11,11 +11,11 @@ import { useUser } from "@clerk/nextjs";
 const Header = () => {
   const { user } = useUser();
 
-  console.log(user);
+  // console.log(user);
 
   return (
-    <div className=" flex justify-around bg-stone-9 items-center w-full p-5">
-      {user && <h1 className=" text-3xl">Welcome, {user.fullName}</h1>}
+    <div className="bg-stone-9 flex w-full items-center justify-around p-5">
+      {user && <h1 className="text-3xl">Welcome, {user.fullName}</h1>}
       <div>Breadcrums</div>
       <div>
         <SignedOut>

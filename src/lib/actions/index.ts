@@ -22,7 +22,7 @@ export const createNewDoc = async () => {
       userId: sessionClaims?.email!,
       role: "owner",
       createdAt: new Date(),
-      roomdId: docRef.id,
+      roomId: docRef.id,
     });
 
   return { docId: docRef.id };

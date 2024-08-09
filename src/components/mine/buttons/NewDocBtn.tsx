@@ -18,7 +18,7 @@ const NewDocBtn = () => {
   };
 
   return (
-    <Button onClick={handleCreateNewDoc} disabled={isPending}>
+    <Button onClick={handleCreateNewDoc} disabled={isPending} className=" w-full p-5">
       {isPending ? "Creating..." : "New Doc"}
     </Button>
   );
