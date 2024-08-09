@@ -7,16 +7,60 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 import { useUser } from "@clerk/nextjs";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { usePathname } from "next/navigation";
+import { useDocumentData } from "react-firebase-hooks/firestore";
+import { doc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 const Header = () => {
   const { user } = useUser();
 
-  // console.log(user);
+  const path = usePathname();
+  const segments = path.split("/");
+
+  const [data, loading, error] = useDocumentData(
+    doc(db, "documents", segments[segments.length - 1]),
+  );
 
   return (
-    <div className="bg-stone-9 flex w-full items-center justify-around p-5">
-      {user && <h1 className="text-3xl">Welcome, {user.fullName}</h1>}
-      <div>Breadcrums</div>
+    <div className="flex h-20 w-full items-center justify-between p-5">
+      {user && <h1 className="w-5/12 text-xl">Welcome, {user.fullName}</h1>}
+      <Breadcrumb className="w-full">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          {segments.map((segment, index) => {
+            if (!segment) return null;
+            const isLast = index === segments.length - 1;
+
+            return (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem key={index}>
+                  {isLast ? (
+                    <BreadcrumbPage>{data?.title}</BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink
+                      href={segments.slice(0, index + 1).join("/")}
+                    >
+                      {segment}
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+              </>
+            );
+          })}
+        </BreadcrumbList>
+      </Breadcrumb>
       <div>
         <SignedOut>
           <Button>
