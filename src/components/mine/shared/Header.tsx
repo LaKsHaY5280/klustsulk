@@ -26,9 +26,9 @@ const Header = () => {
   const path = usePathname();
   const segments = path.split("/");
 
-  const [data, loading, error] = useDocumentData(
-    doc(db, "documents", segments[segments.length - 1]),
-  );
+  // if (segments.length < 1) return null;
+
+  // useDocumentData(doc(db, "documents", segments[segments.length - 1]));
 
   return (
     <div className="flex h-20 w-full items-center justify-between p-5">
@@ -47,7 +47,7 @@ const Header = () => {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem key={index}>
                   {isLast ? (
-                    <BreadcrumbPage>{data?.title}</BreadcrumbPage>
+                    <BreadcrumbPage>{segment}</BreadcrumbPage>
                   ) : (
                     <BreadcrumbLink
                       href={segments.slice(0, index + 1).join("/")}
