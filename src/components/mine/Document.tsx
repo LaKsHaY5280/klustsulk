@@ -5,11 +5,18 @@ import { Button } from "../ui/button";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+import Editor from "./Editor";
+import useOwner from "@/lib/hooks/useOwner";
+import DeleteDocBtn from "./buttons/DeleteDocBtn";
+import InviteOnDocBtn from "./buttons/InviteOnDocBtn";
+import ManageUsers from "./ManageUsers";
+import Avatars from "./Avatars";
 
 const Document = ({ id }: { id: string }) => {
   const [title, setTitle] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const [data, loading, error] = useDocumentData(doc(db, "documents", id));
+  const isOwner = useOwner();
 
   useEffect(() => {
     if (data) setTitle(data.title);
@@ -17,8 +24,6 @@ const Document = ({ id }: { id: string }) => {
 
   const updatetitle = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log("hii");
 
     if (title.trim())
       startTransition(async () => {
@@ -39,10 +44,23 @@ const Document = ({ id }: { id: string }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <Button type="submit" disabled={isPending || !title}>
-          {isPending ? "Updating..." : "Submit"}
-        </Button>
+        <div className="flex w-fit items-center justify-center gap-2">
+          <Button type="submit" disabled={isPending || !title}>
+            {isPending ? "Updating..." : "Submit"}
+          </Button>
+          {isOwner && (
+            <>
+              <InviteOnDocBtn />
+              <DeleteDocBtn />
+            </>
+          )}
+        </div>
       </form>
+      <div className="">
+        <ManageUsers />
+        <Avatars />
+      </div>
+      <Editor />
     </div>
   );
 };
