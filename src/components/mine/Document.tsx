@@ -9,8 +9,6 @@ import Editor from "./Editor";
 import useOwner from "@/lib/hooks/useOwner";
 import DeleteDocBtn from "./buttons/DeleteDocBtn";
 import InviteOnDocBtn from "./buttons/InviteOnDocBtn";
-import ManageUsers from "./ManageUsers";
-import Avatars from "./Avatars";
 
 const Document = ({ id }: { id: string }) => {
   const [title, setTitle] = useState<string>("");
@@ -56,10 +54,7 @@ const Document = ({ id }: { id: string }) => {
           )}
         </div>
       </form>
-      <div className="">
-        <ManageUsers />
-        <Avatars />
-      </div>
+
       <Editor />
     </div>
   );

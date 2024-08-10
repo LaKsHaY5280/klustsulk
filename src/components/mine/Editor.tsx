@@ -12,6 +12,8 @@ import { useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/shadcn/style.css";
 import { stringToColour } from "@/lib/utils";
+import Avatars from "./Avatars";
+import ManageUsers from "./ManageUsers";
 
 const Editor = () => {
   const room = useRoom();
@@ -38,10 +40,14 @@ const Editor = () => {
 
   return (
     <div className="mx-auto max-w-7xl p-5">
-      <div className="mb-10 flex items-center justify-end gap-2">
-        <Button onClick={() => setDarkMode((prev) => !prev)}>
-          {darkMode ? <Sun /> : <Moon />}
-        </Button>
+      <div className="mb-10 flex w-full items-center justify-between gap-2">
+        <ManageUsers />
+        <div className="flex items-center justify-center gap-5">
+          <Avatars />
+          <Button onClick={() => setDarkMode((prev) => !prev)}>
+            {darkMode ? <Sun /> : <Moon />}
+          </Button>
+        </div>
       </div>
       <Blocknote doc={doc} provider={provider} darkMode={darkMode} />
     </div>
